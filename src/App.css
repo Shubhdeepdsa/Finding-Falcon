@@ -1,0 +1,43 @@
+.App {
+  height: 100vh;
+  background: rgb(77, 76, 76);
+  background: radial-gradient(circle, rgba(77, 76, 76, 1) 0%, rgba(0, 0, 0, 1) 38%);
+}
+
+.queen-background {
+  background: url("./Components/Img/QueenFalcon.png");
+  height: 100vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.finding-falcon-heading {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  color: black;
+  font-size: 72px;
+  font-weight: bold ;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+
+}
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  .finding-falcon-heading {
+    font-size: 48px;
+    right: 0;
+    left: 0;
+    text-align: center;
+  }
+
+  .queen-background {
+    background-position: center;
+    filter: blur(5px);
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further adjustments for even smaller screens */
+  .finding-falcon-heading {
+    font-size: 36px;
+  }
+}
