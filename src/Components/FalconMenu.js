@@ -1,21 +1,27 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState , useMemo} from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./FalconMenu.css";
+
 const FalconMenu = (props) => {
+  // State for holding data
   const [planetData, setPlanetData] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
   const [token, setToken] = useState("");
   const [selectedPairs, setSelectedPairs] = useState([]);
   const [timeTaken, setTimeTaken] = useState([0, 0, 0, 0]);
-  const [selectedPlanets, setSelectedPlanets] = useState([]);
+
+  // Destructuring props
   const { setResult } = props;
+
+  // API URLs
   const planetUrl = "https://findfalcone.geektrust.com/planets";
   const vehicleUrl = "https://findfalcone.geektrust.com/vehicles";
   const tokenUrl = "https://findfalcone.geektrust.com/token";
   const falconFindUrl = "https://findfalcone.geektrust.com/find";
+
+  // Memoized data for optimization
   const memoizedPlanetData = useMemo(() => planetData, [planetData]);
-  const memoizedSelectedPairs = useMemo(() => selectedPairs, [selectedPairs]);
+
+  // Fetch planet data from the API
   const getPlanetData = async () => {
     try {
       const response = await fetch(planetUrl);
@@ -25,6 +31,8 @@ const FalconMenu = (props) => {
       console.error(error);
     }
   };
+
+  // Fetch vehicle data from the API
   const getVehicleData = async () => {
     try {
       const response = await fetch(vehicleUrl);
@@ -34,6 +42,8 @@ const FalconMenu = (props) => {
       console.error(error);
     }
   };
+
+  // Fetch token data from the API
   const getTokenData = async () => {
     try {
       const response = await fetch(tokenUrl, {
@@ -48,43 +58,30 @@ const FalconMenu = (props) => {
       console.error("Error:", error);
     }
   };
-  // const handlePlanetChange = (index, value) => {
-  //   setSelectedPairs((prevSelectedPairs) => {
-  //     const updatedPairs = [...prevSelectedPairs];
-  //     updatedPairs[index] = { planet: value, vehicle: "" };
-  //     setTimeTaken((prevTimeTaken) => {
-  //       const updatedTimeTaken = [...prevTimeTaken];
-  //       updatedTimeTaken[index] = calculateTimeTaken(updatedPairs[index]);
-  //       return updatedTimeTaken;
-  //     });
 
-  //     const updatedSelectedPlanets = [...selectedPlanets];
-  //     updatedSelectedPlanets[index] = value;
-  //     setSelectedPlanets(updatedSelectedPlanets);
-
-  //     return updatedPairs;
-  //   });
-  // };
+  // Handle planet selection
   const handlePlanetChange = (index, value, event) => {
-    event.preventDefault(event);
+    event.preventDefault();
     setSelectedPairs((prevSelectedPairs) => {
       const updatedPairs = [...prevSelectedPairs];
       updatedPairs[index] = { planet: value, vehicle: "" };
-  
       setTimeTaken((prevTimeTaken) => {
         const updatedTimeTaken = [...prevTimeTaken];
         updatedTimeTaken[index] = calculateTimeTaken(updatedPairs[index]);
         return updatedTimeTaken;
       });
-  
       return updatedPairs;
     });
-  
-    // Remove the selected planet from the dropdown options
-    const updatedPlanetData = memoizedPlanetData.filter((planet) => planet.name !== value);
+    const updatedPlanetData = planetData.map((planet) => {
+      if (planet.name === value) {
+        return { ...planet, selected: true };
+      }
+      return planet;
+    });
     setPlanetData(updatedPlanetData);
   };
 
+  // Handle vehicle selection
   const handleVehicleChange = (index, value) => {
     setSelectedPairs((prevSelectedPairs) => {
       const updatedPairs = [...prevSelectedPairs];
@@ -97,14 +94,14 @@ const FalconMenu = (props) => {
       return updatedPairs;
     });
   };
+
+  // Calculate available vehicles
   const getAvailableVehicle = (planetName, vehicleName) => {
     const selectedVehicleCount = selectedPairs.filter(
       (pair) => pair.vehicle === vehicleName
     ).length;
-
     const planet = planetData.find((planet) => planet.name === planetName);
     const planetDistance = planet ? planet.distance : 0;
-
     const totalVehicleCount = vehicleData.filter(
       (vehicle) =>
         vehicle.name === vehicleName && vehicle.max_distance >= planetDistance
@@ -112,11 +109,12 @@ const FalconMenu = (props) => {
 
     return totalVehicleCount - selectedVehicleCount;
   };
+
+  // Handle search form submission
   const handleSearch = async (event) => {
     event.preventDefault();
     const planetNames = selectedPairs.map((pair) => pair.planet);
     const vehicleNames = selectedPairs.map((pair) => pair.vehicle);
-
     const requestBody = {
       token: token,
       planet_names: planetNames,
@@ -143,6 +141,8 @@ const FalconMenu = (props) => {
       console.error(error);
     }
   };
+
+  // Calculate time taken for a pair of planet and vehicle
   const calculateTimeTaken = (pair) => {
     if (!pair || !pair.planet || !pair.vehicle) {
       return 0;
@@ -161,15 +161,14 @@ const FalconMenu = (props) => {
     const timeTaken = selectedPlanets.distance / selectedVehicles.speed;
     return timeTaken;
   };
+
+  // Fetch initial data on component mount
   useEffect(() => {
     getPlanetData();
     getVehicleData();
     getTokenData();
   }, []);
 
-  useEffect(() => {
-    console.log(selectedPairs)
-  }, [selectedPairs] )
   return (
     <div className="full-menu">
       <div className="menu-wrapper">
@@ -180,7 +179,6 @@ const FalconMenu = (props) => {
                 <div className="form-column">
                   <label>
                     Select Planet {index + 1}:
-                    {console.log('This is label',selectedPairs[index] ? selectedPairs[index].planet : "")}
                     <select
                       value={
                         selectedPairs[index] && selectedPairs[index].planet
@@ -197,25 +195,13 @@ const FalconMenu = (props) => {
                         </option>
                       ))}
                     </select>
-                    {/* <option value="">Select planet</option>
-                      {planetData.map((planet) => {
-                        if (!selectedPlanets.includes(planet.name)) {
-                          return (
-                            <option key={planet.name} value={planet.name}>
-                              {planet.name}
-                            </option>
-                          );
-                        }
-                        return null;
-                      })} */}
                   </label>
                 </div>
                 <div className="form-column">
                   {selectedPairs[index]
                     ? selectedPairs[index].planet && (
                         <label>
-                          Select Vehicle for{" "}
-                          {selectedPairs[index] && selectedPairs[index].planet}:
+                          Select Vehicle:
                           <select
                             value={
                               selectedPairs[index]
@@ -248,13 +234,7 @@ const FalconMenu = (props) => {
                               })
                               .map((vehicle) => (
                                 <option key={vehicle.name} value={vehicle.name}>
-                                  {vehicle.name} x
-                                  {getAvailableVehicle(
-                                    selectedPairs[index]
-                                      ? selectedPairs[index].planet
-                                      : null,
-                                    vehicle.name
-                                  )}
+                                  {vehicle.name}
                                 </option>
                               ))}
                           </select>
