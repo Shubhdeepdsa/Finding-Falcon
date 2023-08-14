@@ -1,36 +1,33 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import FalconMenu from './Components/FalconMenu';
-import React from 'react'
-import { useEffect } from 'react';
-import SucessPage from './Components/SucessPage';
-import FailPage from './Components/FailPage';
+import { SucessPage, FailPage } from './Components/SucessFailPage';
+
 function App() {
-  const [result, setResult] = useState([])
-  const [displayPage, setDisplayPage] = useState(0)
+  const [result, setResult] = useState([]);
+  const [displayPage, setDisplayPage] = useState(0);
+
   useEffect(() => {
-    if(result.length > 0)  {
-      if(result[0].status === "success")  {
-        setDisplayPage(1)
+    if (result.length > 0) {
+      if (result[0].status === 'success') {
+        setDisplayPage(1);
       } else {
-        setDisplayPage(2)
+        setDisplayPage(2);
       }
     } else {
-      setDisplayPage(0)
+      setDisplayPage(0);
     }
-  }, result)
+  }, [result]);
+
   return (
     <div className="App">
-        <div className="queen-background"></div>
-        <div className="finding-falcon-heading">
-            FINDING THE FALCON
-        </div>
-        {/* {displayPage === 0 ? <FalconMenu setResult = {setResult} /> : ""}
-        {displayPage === 1 ? <SucessPage result = {result} /> : ""}
-        {displayPage === 2 ? <FailPage result = {result} /> : ""} */}
-        <FalconMenu setResult = {setResult}/>
+      <div className="queen-background"></div>
+      <div className="finding-falcon-heading">FINDING THE FALCON</div>
+      {displayPage === 0 ? <FalconMenu setResult={setResult} /> : null}
+      {displayPage === 1 ? <SucessPage result={result} /> : null}
+      {displayPage === 2 ? <FailPage result={result} /> : null}
     </div>
   );
 }
- 
+
 export default App;
