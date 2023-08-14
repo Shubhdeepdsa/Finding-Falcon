@@ -94,22 +94,6 @@ const FalconMenu = (props) => {
       return updatedPairs;
     });
   };
-
-  // Calculate available vehicles
-  const getAvailableVehicle = (planetName, vehicleName) => {
-    const selectedVehicleCount = selectedPairs.filter(
-      (pair) => pair.vehicle === vehicleName
-    ).length;
-    const planet = planetData.find((planet) => planet.name === planetName);
-    const planetDistance = planet ? planet.distance : 0;
-    const totalVehicleCount = vehicleData.filter(
-      (vehicle) =>
-        vehicle.name === vehicleName && vehicle.max_distance >= planetDistance
-    ).length;
-
-    return totalVehicleCount - selectedVehicleCount;
-  };
-
   // Handle search form submission
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -141,13 +125,11 @@ const FalconMenu = (props) => {
       console.error(error);
     }
   };
-
   // Calculate time taken for a pair of planet and vehicle
   const calculateTimeTaken = (pair) => {
     if (!pair || !pair.planet || !pair.vehicle) {
       return 0;
     }
-
     const selectedPlanets = planetData.find(
       (planet) => planet.name === pair.planet
     );
