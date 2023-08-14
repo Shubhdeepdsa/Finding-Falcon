@@ -1,70 +1,142 @@
-# Getting Started with Create React App
+Certainly! Here's a detailed README for your project that explains each component, its functions, and how the project works:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Falcon Finder App
 
-## Available Scripts
+Falcon Finder is a web application that helps you find the elusive Falcon in outer space by selecting planets and vehicles. This project demonstrates the usage of React for building a user interface and making API requests to find the Falcon.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Components](#components)
+  - [FalconMenu](#falconmenu)
+  - [PlanetSelection](#planetselection)
+  - [VehicleSelection](#vehicleselection)
+  - [SearchButton](#searchbutton)
+- [API](#api)
+  - [getPlanetData](#getplanetdata)
+  - [getVehicleData](#getvehicledata)
+  - [getTokenData](#gettokendata)
+- [Utility Functions](#utility-functions)
+  - [calculateTimeTaken](#calculatetimetaken)
+- [How It Works](#how-it-works)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting Started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+To run the Falcon Finder App locally, follow these steps:
 
-### `npm test`
+1. Clone the repository: `git clone https://github.com/your-username/falcon-finder.git`
+2. Navigate to the project directory: `cd falcon-finder`
+3. Install dependencies: `npm install`
+4. Start the development server: `npm start`
+5. Open your browser and go to `http://localhost:3000` to access the app.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Project Structure
 
-### `npm run build`
+```
+src/
+  ├── Components/
+  │   ├── FalconMenu.js
+  │   ├── PlanetSelection.js
+  │   ├── VehicleSelection.js
+  │   ├── SearchButton.js
+  │   ├── SucessFailPage.js
+  │   ├── SucessFailPage.css
+  ├── api/
+  │   ├── index.js
+  ├── calculations.js
+  ├── App.css
+  ├── App.js
+  ├── index.js
+  └── ...
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Components
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### FalconMenu
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The main component responsible for rendering the Falcon Finder menu. It manages the state of selected planets, vehicles, time taken, and interacts with the API to search for the Falcon.
 
-### `npm run eject`
+- `useState` variables:
+  - `planetData`: Holds the list of available planets.
+  - `vehicleData`: Holds the list of available vehicles.
+  - `token`: Holds the authentication token for API requests.
+  - `selectedPairs`: Holds the selected planet-vehicle pairs.
+  - `timeTaken`: Holds the time taken for each selected pair.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- `useEffect`:
+  - Fetches planet, vehicle, and token data on component mount.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `handlePlanetChange`:
+  - Updates selected planet and calculates time taken.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- `handleVehicleChange`:
+  - Updates selected vehicle and calculates time taken.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- `handleSearch`:
+  - Sends API request to find the Falcon with selected data.
 
-## Learn More
+### PlanetSelection
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+A component that renders a planet selection dropdown for a specific index.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `props`:
+  - `index`: Index of the dropdown.
+  - `planetData`: List of available planets.
+  - `selectedPairs`: Selected planet-vehicle pairs.
+  - `handlePlanetChange`: Function to handle planet selection.
 
-### Code Splitting
+### VehicleSelection
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+A component that renders a vehicle selection dropdown for a specific index.
 
-### Analyzing the Bundle Size
+- `props`:
+  - `index`: Index of the dropdown.
+  - `planetData`: List of available planets.
+  - `vehicleData`: List of available vehicles.
+  - `selectedPairs`: Selected planet-vehicle pairs.
+  - `handleVehicleChange`: Function to handle vehicle selection.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### SearchButton
 
-### Making a Progressive Web App
+A component that renders the search button and displays the total time taken.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- `props`:
+  - `handleSearch`: Function to handle search button click.
+  - `timeTaken`: List of time taken for each selected pair.
 
-### Advanced Configuration
+## API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### getPlanetData
 
-### Deployment
+Function to fetch the list of available planets from the API.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### getVehicleData
 
-### `npm run build` fails to minify
+Function to fetch the list of available vehicles from the API.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### getTokenData
+
+Function to fetch the authentication token from the API.
+
+## Utility Functions
+
+### calculateTimeTaken
+
+Function to calculate the time taken for a selected planet-vehicle pair.
+
+## How It Works
+
+1. When the app loads, `FalconMenu` component fetches the list of available planets, vehicles, and authentication token using the API functions in the `api` folder.
+
+2. Users can select a planet for each dropdown in the `FalconMenu`, which triggers the `handlePlanetChange` function. This function updates the selected planet, calculates the time taken for the pair, and enables the corresponding vehicle dropdown.
+
+3. Users can then select a vehicle for each enabled dropdown, triggering the `handleVehicleChange` function. This function updates the selected vehicle and recalculates the time taken for the pair.
+
+4. Once the user has selected planets and vehicles for all dropdowns, they can click the "Search" button. This triggers the `handleSearch` function, which sends an API request to find the Falcon with the selected data.
+
+5. The API returns a result indicating success or failure, and the app displays the corresponding `SucessPage` or `FailPage` from the `SucessFailPage` component.
+
+6. The user is informed whether they successfully found the Falcon or not, along with additional information about the mission.
+
+Feel free to explore the codebase to understand more about the functionality and customization options.
