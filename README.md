@@ -1,5 +1,3 @@
-Certainly! Here's a detailed README for your project that explains each component, its functions, and how the project works:
-
 # Falcon Finder App
 
 Falcon Finder is a web application that helps you find the elusive Falcon in outer space by selecting planets and vehicles. This project demonstrates the usage of React for building a user interface and making API requests to find the Falcon.
