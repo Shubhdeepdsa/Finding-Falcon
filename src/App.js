@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import FalconMenu from './Components/FalconMenu';
-import { SucessPage, FailPage } from './Components/SucessFailPage';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import FalconMenu from "./Components/FalconMenu";
+import { SucessPage, FailPage } from "./Components/SucessFailPage";
 
 function App() {
   const [result, setResult] = useState([]);
@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     if (result.length > 0) {
-      if (result[0].status === 'success') {
+      if (result[0].status === "success") {
         setDisplayPage(1);
       } else {
         setDisplayPage(2);

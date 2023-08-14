@@ -1,7 +1,7 @@
 import React from 'react';
 import './SucessFailPage.css'; 
-
 const SucessPage = ({ result }) => {
+  console.log('This got Called')
   return (
     <div className="page success-page">
       <div className="message-container">
@@ -12,8 +12,8 @@ const SucessPage = ({ result }) => {
     </div>
   );
 };
-
 const FailPage = ({ result }) => {
+  console.log('This got Called')
   return (
     <div className="page fail-page">
       <div className="message-container">
@@ -24,5 +24,4 @@ const FailPage = ({ result }) => {
     </div>
   );
 };
-
 export { SucessPage, FailPage };

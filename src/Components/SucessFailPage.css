@@ -1,48 +1,52 @@
-/* SucessFailPage.css */
-
 .page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-  
-  .message-container {
-    text-align: center;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    color: #fff;
-  }
-  
-  .success-page {
-    background-color: #4caf50; /* Green */
-  }
-  
-  .success-page .message-container {
-    background-color: rgba(76, 175, 80, 0.8); /* Slightly transparent green */
-    padding: 40px;
-  }
-  
-  .fail-page {
-    background-color: #f44336; /* Red */
-  }
-  
-  .fail-page .message-container {
-    background-color: rgba(244, 67, 54, 0.8); /* Slightly transparent red */
-    padding: 40px;
-  }
-  
-  /* Additional styling to enhance readability */
-  .message-container h2 {
-    font-size: 36px;
-    margin-bottom: 10px;
-  }
-  
-  .message-container p {
-    font-size: 20px;
-    margin-bottom: 20px;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+.message-container {
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  width: 80%;
+  max-width: 600px;
+  z-index: 1001;
+}
+
+.success-page {
+  background-color: transparent;
+}
+
+.success-page .message-container {
+  background-color: rgba(131, 131, 131, 0.5);
+  padding: 40px;
+}
+
+.fail-page {
+  background-color: transparent;
+}
+
+.fail-page .message-container {
+  background-color: rgba(131, 131, 131, 0.5);
+  padding: 40px;
+}
+
+.message-container h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.message-container p {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
