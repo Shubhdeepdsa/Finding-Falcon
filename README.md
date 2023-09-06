@@ -1,140 +1,106 @@
-# Falcon Finder App
 
-Falcon Finder is a web application that helps you find the elusive Falcon in outer space by selecting planets and vehicles. This project demonstrates the usage of React for building a user interface and making API requests to find the Falcon.
+# Finding the Falcon
 
 ## Table of Contents
 
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Components](#components)
-  - [FalconMenu](#falconmenu)
-  - [PlanetSelection](#planetselection)
-  - [VehicleSelection](#vehicleselection)
-  - [SearchButton](#searchbutton)
-- [API](#api)
-  - [getPlanetData](#getplanetdata)
-  - [getVehicleData](#getvehicledata)
-  - [getTokenData](#gettokendata)
-- [Utility Functions](#utility-functions)
-  - [calculateTimeTaken](#calculatetimetaken)
-- [How It Works](#how-it-works)
+1. [Introduction](#introduction)
+2. [Project Overview](#project-overview)
+3. [Components](#components)
+   - [App Component](#app-component)
+   - [FalconMenu Component](#falconmenu-component)
+   - [PlanetSelector Component](#planetselector-component)
+   - [VehicleSelector Component](#vehicleselector-component)
+   - [SearchButton Component](#searchbutton-component)
+   - [SuccessPage Component](#successpage-component)
+   - [FailPage Component](#failpage-component)
+4. [API Endpoints](#api-endpoints)
+5. [Functionality Overview](#functionality-overview)
+6. [Deployment](#deployment)
 
-## Getting Started
+---
 
-To run the Falcon Finder App locally, follow these steps:
+## 1. Introduction <a name="introduction"></a>
 
-1. Clone the repository: `git clone https://github.com/your-username/falcon-finder.git`
-2. Navigate to the project directory: `cd falcon-finder`
-3. Install dependencies: `npm install`
-4. Start the development server: `npm start`
-5. Open your browser and go to `http://localhost:3000` to access the app.
+This documentation provides a detailed overview of the "Finding the Falcon" project, a web application built using React. The project simulates the search for the fictional Falcon on different planets using various vehicles.
 
-## Project Structure
+## 2. Project Overview <a name="project-overview"></a>
 
-```
-src/
-  ├── Components/
-  │   ├── FalconMenu.js
-  │   ├── PlanetSelection.js
-  │   ├── VehicleSelection.js
-  │   ├── SearchButton.js
-  │   ├── SucessFailPage.js
-  │   ├── SucessFailPage.css
-  ├── api/
-  │   ├── index.js
-  ├── calculations.js
-  ├── App.css
-  ├── App.js
-  ├── index.js
-  └── ...
-```
+The project consists of several components, each responsible for a specific part of the application. Here's a high-level overview of the key components and their functionality:
 
-## Components
+## 3. Components <a name="components"></a>
 
-### FalconMenu
+### App Component <a name="app-component"></a>
 
-The main component responsible for rendering the Falcon Finder menu. It manages the state of selected planets, vehicles, time taken, and interacts with the API to search for the Falcon.
+**Functionality**:
+- Manages the main application state.
+- Fetches data from external APIs.
+- Determines which page to display based on the search result.
 
-- `useState` variables:
-  - `planetData`: Holds the list of available planets.
-  - `vehicleData`: Holds the list of available vehicles.
-  - `token`: Holds the authentication token for API requests.
-  - `selectedPairs`: Holds the selected planet-vehicle pairs.
-  - `timeTaken`: Holds the time taken for each selected pair.
+#### Functions within the App Component:
 
-- `useEffect`:
-  - Fetches planet, vehicle, and token data on component mount.
+- `fetchPlanetData`: Fetches planet data from the API and updates the `planetData` state.
+- `fetchVehicleData`: Fetches vehicle data from the API and updates the `vehicleData` state.
+- `fetchTokenData`: Fetches a token from the API for authentication and updates the `token` state.
+- `handleDisplayPage`: Determines which page to display based on the search result.
+- `renderPage`: Renders the appropriate component based on the `displayPage` state.
 
-- `handlePlanetChange`:
-  - Updates selected planet and calculates time taken.
+### FalconMenu Component <a name="falconmenu-component"></a>
 
-- `handleVehicleChange`:
-  - Updates selected vehicle and calculates time taken.
+**Functionality**:
+- Displays a menu where users can select planets and vehicles.
+- Handles planet and vehicle selection.
+- Sends a search request to find the Falcon.
 
-- `handleSearch`:
-  - Sends API request to find the Falcon with selected data.
+#### Functions within the FalconMenu Component:
 
-### PlanetSelection
+- `handlePlanetChange`: Handles planet selection and updates the selected planet in the `selectedPairs` state.
+- `handleVehicleChange`: Handles vehicle selection and updates the selected vehicle in the `selectedPairs` state.
+- `handleSearch`: Handles the search form submission and sends a search request to find the Falcon.
+- `calculateTimeTaken`: Calculates the time taken for a selected pair of planet and vehicle.
 
-A component that renders a planet selection dropdown for a specific index.
+### PlanetSelector Component <a name="planetselector-component"></a>
 
-- `props`:
-  - `index`: Index of the dropdown.
-  - `planetData`: List of available planets.
-  - `selectedPairs`: Selected planet-vehicle pairs.
-  - `handlePlanetChange`: Function to handle planet selection.
+**Functionality**:
+- Provides a dropdown list for selecting a planet.
+- Filters available planets based on vehicle range.
+- Updates the selected planet in the FalconMenu.
 
-### VehicleSelection
+### VehicleSelector Component <a name="vehicleselector-component"></a>
 
-A component that renders a vehicle selection dropdown for a specific index.
+**Functionality**:
+- Provides a dropdown list for selecting a vehicle.
+- Filters available vehicles based on planet distance.
+- Updates the selected vehicle in the FalconMenu.
 
-- `props`:
-  - `index`: Index of the dropdown.
-  - `planetData`: List of available planets.
-  - `vehicleData`: List of available vehicles.
-  - `selectedPairs`: Selected planet-vehicle pairs.
-  - `handleVehicleChange`: Function to handle vehicle selection.
+### SearchButton Component <a name="searchbutton-component"></a>
 
-### SearchButton
+**Functionality**:
+- Displays a "Search" button.
+- Calculates and displays the total time required for the search.
+- Submits the search request to find the Falcon.
 
-A component that renders the search button and displays the total time taken.
+### SuccessPage Component <a name="successpage-component"></a>
 
-- `props`:
-  - `handleSearch`: Function to handle search button click.
-  - `timeTaken`: List of time taken for each selected pair.
+**Functionality**:
+- Displays a success message when the Falcon is found.
+- Shows the planet where the Falcon was found.
 
-## API
+### FailPage Component <a name="failpage-component"></a>
 
-### getPlanetData
+**Functionality**:
+- Displays a failure message when the Falcon is not found.
+- Encourages the user to try again with different strategies.
 
-Function to fetch the list of available planets from the API.
+## 4. API Endpoints <a name="api-endpoints"></a>
 
-### getVehicleData
+- **Planet API**: Fetches data about available planets.
+- **Vehicle API**: Fetches data about available vehicles.
+- **Token API**: Fetches a token for authentication.
 
-Function to fetch the list of available vehicles from the API.
+## 5. Functionality Overview <a name="functionality-overview"></a>
 
-### getTokenData
+The project begins with the App component fetching planet and vehicle data and obtaining a token for authentication. Users interact with the FalconMenu component to select planets and vehicles, calculate search times, and submit search requests. The result is then used to determine whether the Falcon was found or not, leading to the display of either the SuccessPage or FailPage component.
 
-Function to fetch the authentication token from the API.
+## 6. Deployment <a name="deployment"></a>
 
-## Utility Functions
-
-### calculateTimeTaken
-
-Function to calculate the time taken for a selected planet-vehicle pair.
-
-## How It Works
-
-1. When the app loads, `FalconMenu` component fetches the list of available planets, vehicles, and authentication token using the API functions in the `api` folder.
-
-2. Users can select a planet for each dropdown in the `FalconMenu`, which triggers the `handlePlanetChange` function. This function updates the selected planet, calculates the time taken for the pair, and enables the corresponding vehicle dropdown.
-
-3. Users can then select a vehicle for each enabled dropdown, triggering the `handleVehicleChange` function. This function updates the selected vehicle and recalculates the time taken for the pair.
-
-4. Once the user has selected planets and vehicles for all dropdowns, they can click the "Search" button. This triggers the `handleSearch` function, which sends an API request to find the Falcon with the selected data.
-
-5. The API returns a result indicating success or failure, and the app displays the corresponding `SucessPage` or `FailPage` from the `SucessFailPage` component.
-
-6. The user is informed whether they successfully found the Falcon or not, along with additional information about the mission.
-
-Feel free to explore the codebase to understand more about the functionality and customization options.
+The application can be deployed to various hosting platforms. Ensure that you configure environment variables for sensitive data such as API keys and secrets when deploying to production.
